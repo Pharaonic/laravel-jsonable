@@ -1,0 +1,44 @@
+{
+    "name": "pharaonic/laravel-jsonable",
+    "description": "Laravel Jsonable Responses & Exceptions.",
+    "keywords": [
+        "laravel jsonable",
+        "laravel json",
+        "laravel",
+        "php"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Moamen Eltouny (Raggi)",
+            "email": "support@raggitech.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "laravel/framework": ">=8.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Pharaonic\\Laravel\\Jsonable\\JsonableServiceProvider"
+            ]
+        },
+        "aliases": {
+            "Json": "Pharaonic\\Laravel\\Jsonable\\Facades\\Json"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Pharaonic\\Laravel\\Jsonable\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
