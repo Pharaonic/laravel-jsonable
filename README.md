@@ -12,7 +12,7 @@
 </p>
 
 <h3 align="center">Laravel Jsonable</h3>
-<h5 align="center">Responses & Exceptions</h5>
+<h5 align="center">Well-Formated Responses & Exceptions.</h5>
 
 
 ## Documentation
