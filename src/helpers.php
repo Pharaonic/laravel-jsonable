@@ -4,7 +4,7 @@ if (!function_exists('json')) {
     /**
      * Create a new JSON response instance
      *
-     * @return \App\Jsonable\Classes\Json
+     * @return \Pharaonic\Laravel\Jsonable\Json
      */
     function json()
     {

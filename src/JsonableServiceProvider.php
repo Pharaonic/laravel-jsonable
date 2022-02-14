@@ -15,8 +15,7 @@ class JsonableServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        // Config
-        // $this->mergeConfigFrom(__DIR__ . '/../config/config.php', 'modulator');
+        // 
     }
 
     /**
@@ -43,11 +42,6 @@ class JsonableServiceProvider extends ServiceProvider
      */
     public function console()
     {
-        // // Config
-        // $this->publishes([
-        //     __DIR__ . '/../config/config.php' => config_path('modulator.php'),
-        // ], ['config', 'pharaonic', 'modulator']);
-
         // MAIN COMMANDS
         $this->commands([MakeRequest::class, MakeResource::class,]);
     }
