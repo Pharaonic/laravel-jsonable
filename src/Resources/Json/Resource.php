@@ -29,11 +29,11 @@ class Resource extends IlluminateJsonResource
      * Create a new anonymous resource collection.
      *
      * @param  mixed  $resource
-     * @return \App\Jsonable\Resources\ResourceCollection
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public static function collection($resource, ?string $message = null)
+    public static function collection($resource)
     {
-        return tap(new ResourceCollection($resource, $message ?? static::$message ?? null), function ($collection) {
+        return tap(new ResourceCollection($resource, static::class, static::$message ?? null), function ($collection) {
             if (property_exists(static::class, 'preserveKeys')) {
                 $collection->preserveKeys = (new static([]))->preserveKeys === true;
             }
@@ -48,6 +48,6 @@ class Resource extends IlluminateJsonResource
      */
     public function toResponse($request)
     {
-        return json()->success($this->resource->toArray(), static::$message ?? null);
+        return json()->success($this->toArray($request), static::$message ?? null);
     }
 }

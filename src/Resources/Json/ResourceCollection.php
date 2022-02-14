@@ -3,6 +3,7 @@
 namespace Pharaonic\Laravel\Jsonable\Resources\Json;
 
 use Illuminate\Http\Resources\Json\ResourceCollection as IlluminateResourceCollection;
+use Illuminate\Http\Resources\Json\ResourceResponse;
 use Illuminate\Pagination\AbstractCursorPaginator;
 use Illuminate\Pagination\AbstractPaginator;
 use Illuminate\Support\Arr;
@@ -10,17 +11,33 @@ use Illuminate\Support\Arr;
 class ResourceCollection extends IlluminateResourceCollection
 {
     /**
-     * Create a new resource instance.
+     * The name of the resource being collected.
+     *
+     * @var string
+     */
+    public $collects;
+
+    /**
+     * Response message
+     *
+     * @var string
+     */
+    public static $message = null;
+
+    /**
+     * Create a new anonymous resource collection.
      *
      * @param  mixed  $resource
+     * @param  string  $collects
+     * @param  string|null  $message
      * @return void
      */
-    public function __construct($resource, ?string $message = null)
+    public function __construct($resource, $collects, ?string $message = null)
     {
-        parent::__construct($resource);
+        $this->collects = $collects;
+        self::$message = $message;
 
-        $this->resource = $this->collectResource($resource);
-        if ($message) $this->message  = $message;
+        parent::__construct($resource);
     }
 
     /**
@@ -33,8 +50,9 @@ class ResourceCollection extends IlluminateResourceCollection
     {
         if ($this->resource instanceof AbstractPaginator || $this->resource instanceof AbstractCursorPaginator)
             return $this->preparePaginatedResponse($request);
+        
 
-        return json()->success($this->resource->toArray(), $this->message ?? null);
+        return json()->success($this->toArray($request), static::$message ?? null);
     }
 
     /**
