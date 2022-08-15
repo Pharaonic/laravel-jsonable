@@ -50,7 +50,7 @@ class ExceptionHandler extends Handler
             if ($trans == 'auth.unauthenticated') $trans = null;
 
             return $this->shouldReturnJson($request, $e)
-                ? json()->exception($e, null, $trans, 401)
+                ? json()->exception($e, null, $trans, [], 401)
                 : redirect()->guest($e->redirectTo() ?? route('login'));
         } elseif ($e instanceof ValidationException) {
             return $this->convertValidationExceptionToResponse($e, $request);
