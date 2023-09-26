@@ -21,17 +21,19 @@ class Json
 {
     public function success($data, ?string $message = null, ?array $extra = [], int $status = 200, array $headers = [])
     {
+        if (!in_array(gettype($data), ['object', 'array', 'NULL'])) {
+            throw new \Exception('You have to pass $data as JsonResource or Array or Null.');
+        }
+
         if ($data instanceof JsonResource) {
             $data = $data->toArray(request());
-        } elseif (!is_array($data)) {
-            throw new \Exception('You have to pass $data as JsonResource or Array.');
         }
 
         return response()->json([
-                'success' => true,
-                'message' => $message,
-                'data' => $data
-            ] + ($extra ?? []), $status, $headers);
+            'success' => true,
+            'message' => $message,
+            'data' => $data
+        ] + ($extra ?? []), $status, $headers);
     }
 
     public function errors(array $errors, ?string $code, ?string $message = null, ?array $extra = [], int $status = 400, array $headers = [])
@@ -55,26 +57,26 @@ class Json
 
         // RESPONES
         return response()->json([
-                'success' => false,
-                'code' => $code,
-                'message' => $message,
-                'errors' => $errors
-            ] + ($extra ?? []), $status, $headers);
+            'success' => false,
+            'code' => $code,
+            'message' => $message,
+            'errors' => $errors
+        ] + ($extra ?? []), $status, $headers);
     }
 
     public function exception(\Throwable $exception, ?string $code = null, ?string $message = null, ?array $extra = [], int $status = 400, array $headers = [])
     {
         return response()->json([
-                'success' => false,
-                'code' => $code ?? $exception->getCode() ?? null,
-                'message' => $message ?? $exception->getMessage(),
-                'data' => (object)(app()->environment('local', 'staging') ?
-                    [
-                        'line' => $exception->getLine(),
-                        'file' => $exception->getFile(),
-                    ] + (config('Pharaonic.jsonable.tracing', false) ? ['trace' => $exception->getTrace()] : [])
-                    : []
-                )
-            ] + ($extra ?? []), $status, $headers);
+            'success' => false,
+            'code' => $code ?? $exception->getCode() ?? null,
+            'message' => $message ?? $exception->getMessage(),
+            'data' => (object)(app()->environment('local', 'staging') ?
+                [
+                    'line' => $exception->getLine(),
+                    'file' => $exception->getFile(),
+                ] + (config('Pharaonic.jsonable.tracing', false) ? ['trace' => $exception->getTrace()] : [])
+                : []
+            )
+        ] + ($extra ?? []), $status, $headers);
     }
 }
