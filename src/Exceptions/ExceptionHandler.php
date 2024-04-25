@@ -89,8 +89,8 @@ class ExceptionHandler extends Handler
         return $this->shouldReturnJson($request, $e) ?
             json()->errors(
                 $e->validator->errors()->toArray(),
-                $e->validator->code ?? null,
-                __($e->validator->message ?? null),
+                $e->validator->code ?? $e->getCode() ?? null,
+                __($e->validator->message ?? $e->getMessage() ?? null),
                 null,
                 422
             ) : $this->invalid($request, $e);
